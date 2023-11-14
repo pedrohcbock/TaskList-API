@@ -27,7 +27,6 @@ router.post('/new', (req, res) => {
 
 router.delete('/delete/:id', (req, res) => {
     const taskId = req.params.id;
-    console.log('ID da tarefa a ser excluída:', taskId);
     db.query('DELETE FROM tasks WHERE id = ?', [taskId], (error) => {
         if (error) {
             res.status(500).json({ error: 'Erro ao excluir tarefa do banco de dados' });
