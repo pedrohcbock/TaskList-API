@@ -25,6 +25,19 @@ router.post('/new', (req, res) => {
     });
 });
 
+router.put('/edit/:id', (req, res) => {
+    const taskId = req.params.id;
+    const { title, content } = req.body;
+  
+    db.query('UPDATE tasks SET title = ?, content = ? WHERE id = ?', [title, content, taskId], (error, results) => {
+      if (error) {
+        res.status(500).json({ error: 'Erro ao atualizar tarefa no banco de dados' });
+      } else {
+        res.json({ id: taskId, title, content });
+      }
+    });
+  });
+
 router.delete('/delete/:id', (req, res) => {
     const taskId = req.params.id;
     db.query('DELETE FROM tasks WHERE id = ?', [taskId], (error) => {
