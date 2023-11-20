@@ -1,2 +1,4 @@
 npm install
 npx knex migrate:latest
+npm install cors
+node src/app.js
