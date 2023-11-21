@@ -13,6 +13,17 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/:id', (req, res) => {
+    const taskId = req.params.id
+    db.query('SELECT * FROM tasks WHERE id = ?', [taskId], (error, results) => {
+        if (error) {
+            res.status(500).json({ error: 'Erro ao obter determinada tarefa' });
+        } else {
+            res.json(results);
+        }
+    });
+});
+
 router.post('/new', (req, res) => {
     const { title, content } = req.body;
     db.query('INSERT INTO tasks (title, content) VALUES (?, ?)', [title, content], (error, results) => {
@@ -28,15 +39,15 @@ router.post('/new', (req, res) => {
 router.put('/edit/:id', (req, res) => {
     const taskId = req.params.id;
     const { title, content } = req.body;
-  
+
     db.query('UPDATE tasks SET title = ?, content = ? WHERE id = ?', [title, content, taskId], (error, results) => {
-      if (error) {
-        res.status(500).json({ error: 'Erro ao atualizar tarefa no banco de dados' });
-      } else {
-        res.json({ id: taskId, title, content });
-      }
+        if (error) {
+            res.status(500).json({ error: 'Erro ao atualizar tarefa no banco de dados' });
+        } else {
+            res.json({ id: taskId, title, content });
+        }
     });
-  });
+});
 
 router.delete('/delete/:id', (req, res) => {
     const taskId = req.params.id;
